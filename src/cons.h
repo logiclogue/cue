@@ -15,7 +15,7 @@ Cons *cons_empty(void);
 Cons *cons_from_string(char *s);
 Cons *cons_from_int(int i);
 Cons *cons_from_bool(bool b);
-void destroy_cons(Cons *cons);
+void cons_destroy(Cons *cons);
 char *cons_to_string(Cons *cons);
 int cons_to_int(Cons *cons);
 bool cons_to_bool(Cons *cons);

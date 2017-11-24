@@ -63,7 +63,7 @@ Cons *cons_from_bool(bool b) {
     return cons_from_string("#f");
 }
 
-void destroy_cons(Cons *cons) {
+void cons_destroy(Cons *cons) {
     if (cons_is_empty(cons)) {
         return;
     }
