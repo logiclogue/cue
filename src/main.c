@@ -6,11 +6,9 @@ int main(void) {
     cons_test();
 
     FILE *file = fopen("src/main.c", "r");
-    char current_char;
+    Cons *cons = cons_from_file(file);
 
-    while ((current_char = fgetc(file)) != EOF) {
-        printf("%c", current_char);
-    }
+    printf("%s\n", cons_to_string(cons));
 
     printf("All tests pass :)\n");
 

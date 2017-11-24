@@ -63,6 +63,22 @@ Cons *cons_from_bool(bool b) {
     return cons_from_string("#f");
 }
 
+Cons *cons_from_file(FILE *f) {
+    char current_char;
+    Cons *previous_cons = cons_empty();
+    Cons *cons = cons_empty();
+
+    while ((current_char = fgetc(f)) != EOF) {
+        previous_cons = cons;
+
+        cons = cons_add(previous_cons, cons_new(current_char, cons_empty()));
+
+        cons_destroy(previous_cons);
+    }
+
+    return cons;
+}
+
 void cons_destroy(Cons *cons) {
     if (cons_is_empty(cons)) {
         return;
@@ -283,4 +299,10 @@ void cons_test(void) {
     assert(cons_to_bool(cons_from_string("#t")));
     assert(!cons_to_bool(cons_from_string("#f")));
     assert(!cons_to_bool(cons_from_string("blah")));
+
+    FILE *file = fopen("src/main.c", "r");
+
+    assert(cons_head(cons_from_file(file)) == '#');
+
+    fclose(file);
 }
