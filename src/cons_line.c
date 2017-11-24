@@ -15,6 +15,20 @@ Cons *cons_line(Cons *cons, int line) {
     return cons_line(cons->cdr, line);
 }
 
+static int _cons_line_count(int n, Cons *cons) {
+    if (cons_is_empty(cons)) {
+        return n + 1;
+    } else if (cons_line_is_newline(cons->car)) {
+        return _cons_line_count(n + 1, cons->cdr);
+    }
+
+    return _cons_line_count(n, cons->cdr);
+}
+
+int cons_line_count(Cons *cons) {
+    return _cons_line_count(0, cons);
+}
+
 bool cons_line_is_newline(char c) {
     return c == 0x0A || c == 0x0B || c == 0x0C || c == 0x0D || c == 0x85;
 }
@@ -33,6 +47,8 @@ void cons_line_test(void) {
     assert(cons_equal(second, expected_second));
     assert(cons_equal(third, expected_third));
     assert(cons_equal(fourth, cons_empty()));
+    assert(cons_line_count(cons) == 3);
+    assert(cons_line_count(cons_from_string("")) == 1);
 
     cons_destroy(cons);
     cons_destroy(first);

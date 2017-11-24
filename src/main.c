@@ -37,7 +37,7 @@ int main(void) {
 
     printf("All tests pass :)\n");
 
-    getch();
+    getc(stdin);
 
     FILE *file = fopen("src/main.c", "r");
     Cons *cons = cons_from_file(file);
