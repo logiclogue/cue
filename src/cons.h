@@ -4,9 +4,9 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-typedef struct _Cons Cons;
+typedef struct ConsTag Cons;
 
-struct _Cons {
+struct ConsTag {
     char car;
     Cons *cdr;
 };
