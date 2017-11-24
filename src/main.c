@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "cons.h"
+#include "cons_line.h"
 #include "Cursor.h"
 
 int main(void) {
     cons_test();
+    cons_line_test();
     Cursor_test();
 
     FILE *file = fopen("src/main.c", "r");

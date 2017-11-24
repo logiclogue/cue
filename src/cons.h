@@ -2,6 +2,7 @@
 #define CONS_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct _Cons Cons;
 
