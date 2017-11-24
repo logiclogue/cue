@@ -8,9 +8,7 @@ int main(void) {
     FILE *file = fopen("src/main.c", "r");
     char current_char;
 
-    while (current_char != EOF) {
-        current_char = fgetc(file);
-
+    while ((current_char = fgetc(file)) != EOF) {
         printf("%c", current_char);
     }
 
