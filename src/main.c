@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "cons.h"
 #include "cons_line.h"
-#include "Cursor.h"
+#include "cursor.h"
 
 void curses_test(void) {
     initscr();
@@ -33,7 +33,7 @@ void curses_test(void) {
 int main(void) {
     cons_test();
     cons_line_test();
-    Cursor_test();
+    cursor_test();
 
     printf("All tests pass :)\n");
 
