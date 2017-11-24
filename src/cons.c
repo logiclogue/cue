@@ -72,7 +72,7 @@ void cons_destroy(Cons *cons) {
 
     total += 1;
 
-    destroy_cons(cons->cdr);
+    cons_destroy(cons->cdr);
     free(cons);
 }
 
@@ -103,12 +103,12 @@ bool cons_to_bool(Cons *cons) {
     Cons *truth = cons_from_string("#t");
 
     if (cons_equal(cons, truth)) {
-        destroy_cons(truth);
+        cons_destroy(truth);
 
         return true;
     }
 
-    destroy_cons(truth);
+    cons_destroy(truth);
 
     return false;
 }
