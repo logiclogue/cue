@@ -8,6 +8,8 @@ int main(void) {
     FILE *file = fopen("src/main.c", "r");
     Cons *cons = cons_from_file(file);
 
+    fclose(file);
+
     printf("%s\n", cons_to_string(cons));
 
     printf("All tests pass :)\n");
