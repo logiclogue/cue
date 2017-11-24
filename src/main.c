@@ -39,13 +39,6 @@ int main(void) {
 
     getc(stdin);
 
-    FILE *file = fopen("src/main.c", "r");
-    Cons *cons = cons_from_file(file);
-
-    fclose(file);
-
-    printf("%s\n", cons_to_string(cons));
-
     curses_test();
 
     return 0;
