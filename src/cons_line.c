@@ -33,6 +33,22 @@ bool cons_line_is_newline(char c) {
     return c == 0x0A || c == 0x0B || c == 0x0C || c == 0x0D || c == 0x85;
 }
 
+static int _cons_line_current(int line, int pos, Cons *cons) {
+    if (cons_is_empty(cons)) {
+        return line;
+    } else if (pos <= 0) {
+        return line;
+    } else if (cons_line_is_newline(cons->car)) {
+        return _cons_line_current(line + 1, pos - 1, cons->cdr);
+    }
+
+    return _cons_line_current(line, pos - 1, cons->cdr);
+}
+
+int cons_line_current(int pos, Cons *cons) {
+    return _cons_line_current(0, pos, cons);
+}
+
 void cons_line_test(void) {
     Cons *cons = cons_from_string("first\nsecond\nthird");
     Cons *first = cons_line(cons, 0);
@@ -49,6 +65,11 @@ void cons_line_test(void) {
     assert(cons_equal(fourth, cons_empty()));
     assert(cons_line_count(cons) == 3);
     assert(cons_line_count(cons_from_string("")) == 1);
+    assert(cons_line_current(0, cons) == 0);
+    assert(cons_line_current(1, cons) == 0);
+    assert(cons_line_current(6, cons) == 1);
+    assert(cons_line_current(100, cons) == 2);
+    assert(cons_line_current(5, cons) == 0);
 
     cons_destroy(cons);
     cons_destroy(first);
