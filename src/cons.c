@@ -260,6 +260,17 @@ bool cons_all(bool (*f)(char c), Cons *cons) {
     return cons_all(f, cons->cdr);
 }
 
+Cons *cons_insert_char(int i, char c, Cons *cons) {
+    Cons *head = cons_take(i, cons);
+    Cons *tail = cons_drop(i, cons);
+    Cons *new_tail = cons_new(c, tail);
+    Cons *new_cons = cons_add(head, new_tail);
+
+    cons_destroy(head);
+
+    return new_cons;
+}
+
 void cons_test(void) {
     Cons *jordan = cons_from_string("Jordan");
     Cons *j = cons_from_string("J");
@@ -305,4 +316,8 @@ void cons_test(void) {
     assert(cons_head(cons_from_file(file)) == '#');
 
     fclose(file);
+
+    assert(cons_equal(
+        cons_insert_char(1, 'o', cons_from_string("Jrdan")),
+        cons_from_string("Jordan")));
 }

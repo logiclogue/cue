@@ -37,5 +37,6 @@ void cons_test(void);
 Cons *cons_list(int n, Cons *cons);
 bool cons_is_empty(Cons *cons);
 bool cons_all(bool (*f)(char c), Cons *cons);
+Cons *cons_insert_char(int i, char c, Cons *cons);
 
 #endif
