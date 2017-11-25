@@ -14,6 +14,7 @@ struct EditorTag {
 
 Editor editor_new(Cursor cursor, Cons *cons);
 Editor editor_insert_char(char c, Editor editor);
+int editor_get_position(Editor editor);
 void editor_test(void);
 
 #endif
