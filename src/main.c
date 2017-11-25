@@ -5,6 +5,7 @@
 #include "cons_line.h"
 #include "cursor.h"
 #include "editor.h"
+#include "curses_interface.h"
 
 void curses_test(void) {
     initscr();
@@ -31,17 +32,35 @@ void curses_test(void) {
     endwin();
 }
 
-int main(void) {
+void test(void) {
     cons_test();
     cons_line_test();
     cursor_test();
     editor_test();
 
     printf("All tests pass :)\n");
+}
 
-    getc(stdin);
+void start(const char file_name[]) {
+    FILE *file = fopen(file_name, "r");
 
-    curses_test();
+    Cons *cons = cons_from_file(file);
+    Cursor cursor = cursor_new(0, 0);
+    Editor editor = editor_new(cursor, cons);
+
+    curses_interface_init();
+    curses_interface_draw(editor);
+    curses_interface_end();
+
+    fclose(file);
+}
+
+int main(int n, char **argv) {
+    if (n == 1) {
+        test();
+    } else if (n == 2) {
+        start(argv[1]);
+    }
 
     return 0;
 }
