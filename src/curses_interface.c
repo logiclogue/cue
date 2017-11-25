@@ -35,6 +35,8 @@ Editor curses_interface_dispatch(char c, Editor editor) {
         return editor_new(cursor_up(editor.cursor), editor.cons);
     } else if (c == 2) {
         return editor_new(cursor_down(editor.cursor), editor.cons);
+    } else if (c == 127) {
+        return editor_backspace(editor);
     }
 
     return editor_insert_char(c, editor);
