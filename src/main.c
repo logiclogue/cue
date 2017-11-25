@@ -45,8 +45,6 @@ void start(const char file_name[]) {
     FILE *file = fopen(file_name, "r");
 
     Cons *cons = cons_from_file(file);
-    printf("%s\n", cons_to_string(cons));
-    fgetc(stdin);
     Editor editor = editor_new(cursor_new(0, 0), cons);
 
     fclose(file);
