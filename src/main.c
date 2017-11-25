@@ -43,11 +43,17 @@ void test(void) {
 
 void start(const char file_name[]) {
     FILE *file = fopen(file_name, "r");
+    Cons *cons = cons_empty();
 
-    Cons *cons = cons_from_file(file);
+    if (file != NULL) {
+        cons = cons_from_file(file);
+    }
+
     Editor editor = editor_new(cursor_new(0, 0), cons);
 
-    fclose(file);
+    if (file != NULL) {
+        fclose(file);
+    }
 
     curses_interface_init();
     editor = curses_interface_draw(editor);

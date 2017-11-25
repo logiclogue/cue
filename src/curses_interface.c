@@ -5,6 +5,7 @@
 
 void curses_interface_init(void) {
     initscr();
+    keypad(stdscr, TRUE);
 }
 
 Editor curses_interface_draw(Editor editor) {
