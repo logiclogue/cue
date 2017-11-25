@@ -5,7 +5,7 @@ Cons *cons_line(Cons *cons, int line) {
     if (cons_is_empty(cons)) {
         return cons_empty();
     } else if (cons_line_is_newline(cons->car) && line == 0) {
-        return cons_empty();
+        return cons_new(cons->car, cons_empty());
     } else if (cons_line_is_newline(cons->car)) {
         return cons_line(cons->cdr, line - 1);
     } else if (line == 0) {
@@ -49,12 +49,32 @@ int cons_line_current(int pos, Cons *cons) {
     return _cons_line_current(0, pos, cons);
 }
 
+int cons_line_column_to_pos(int line, int column, Cons *cons) {
+    Cons *current_line = cons_line(cons, line);
+    int length = cons_length(current_line);
+    int lines = cons_line_count(cons);
+    
+    if (line >= lines && line > 0) {
+        return cons_line_column_to_pos(line - 1, column, cons);
+    } else if (column >= length && column > 0) {
+        return cons_line_column_to_pos(line, column - 1, cons);
+    } else if (column < 0) {
+        return cons_line_column_to_pos(line, length - 1, cons);
+    } else if (line == 0) {
+        return column;
+    } else if (column == 0) {
+        return 1 + cons_line_column_to_pos(line - 1, column - 1, cons);
+    }
+
+    return 1 + cons_line_column_to_pos(line, column - 1, cons);
+}
+
 void cons_line_test(void) {
     Cons *cons = cons_from_string("first\nsecond\nthird");
     Cons *first = cons_line(cons, 0);
-    Cons *expected_first = cons_from_string("first");
+    Cons *expected_first = cons_from_string("first\n");
     Cons *second = cons_line(cons, 1);
-    Cons *expected_second = cons_from_string("second");
+    Cons *expected_second = cons_from_string("second\n");
     Cons *third = cons_line(cons, 2);
     Cons *expected_third = cons_from_string("third");
     Cons *fourth = cons_line(cons, 3);
@@ -70,6 +90,12 @@ void cons_line_test(void) {
     assert(cons_line_current(6, cons) == 1);
     assert(cons_line_current(100, cons) == 2);
     assert(cons_line_current(5, cons) == 0);
+    assert(cons_line_column_to_pos(0, 0, cons) == 0);
+    assert(cons_line_column_to_pos(0, 1, cons) == 1);
+    assert(cons_line_column_to_pos(1, 0, cons) == 6);
+    assert(cons_line_column_to_pos(2, 4, cons) == 17);
+    assert(cons_line_column_to_pos(2, 5, cons) == 17);
+    assert(cons_line_column_to_pos(3, 5, cons) == 17);
 
     cons_destroy(cons);
     cons_destroy(first);
