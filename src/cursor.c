@@ -1,11 +1,6 @@
 #include <assert.h>
 #include "cursor.h"
 
-struct CursorTag {
-    int line;
-    int column;
-};
-
 Cursor cursor_new(int line, int column) {
     return (Cursor) {
         line = line,

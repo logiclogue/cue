@@ -1,8 +1,12 @@
 #ifndef CURSOR_H
 #define CURSOR_H
 
-struct CursorTag;
 typedef struct CursorTag Cursor;
+
+struct CursorTag {
+    int line;
+    int column;
+};
 
 Cursor cursor_new(int line, int column);
 Cursor cursor_right(Cursor self);

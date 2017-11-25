@@ -4,6 +4,7 @@
 #include "cons.h"
 #include "cons_line.h"
 #include "cursor.h"
+#include "editor.h"
 
 void curses_test(void) {
     initscr();
@@ -34,6 +35,7 @@ int main(void) {
     cons_test();
     cons_line_test();
     cursor_test();
+    editor_test();
 
     printf("All tests pass :)\n");
 
