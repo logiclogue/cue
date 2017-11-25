@@ -43,7 +43,9 @@ Editor curses_interface_dispatch(char c, Editor editor) {
 void curses_interface_draw_cursor(Editor editor) {
     attron(A_BOLD);
     attron(COLOR_PAIR(1));
+
     mvprintw(editor.cursor.line, editor.cursor.column, "");
+
     attroff(A_BOLD);
     attroff(COLOR_PAIR(1));
 }
