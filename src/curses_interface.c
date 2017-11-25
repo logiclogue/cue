@@ -6,6 +6,8 @@
 void curses_interface_init(void) {
     initscr();
     keypad(stdscr, TRUE);
+
+    init_pair(1, COLOR_BLACK, COLOR_GREEN);
 }
 
 Editor curses_interface_draw(Editor editor) {
@@ -18,13 +20,14 @@ Editor curses_interface_draw(Editor editor) {
         editor = curses_interface_dispatch(c, editor);
 
         printw("%s", cons_to_string(editor.cons));
+        curses_interface_draw_cursor(editor);
     }
 
     return editor;
 }
 
 Editor curses_interface_dispatch(char c, Editor editor) {
-    printw("\n\n%d\n\n", c);
+    //printw("\n\n%d\n\n", c);
     if (c == 4) {
         return editor_new(cursor_left(editor.cursor), editor.cons);
     } else if (c == 5) {
@@ -36,6 +39,14 @@ Editor curses_interface_dispatch(char c, Editor editor) {
     }
 
     return editor_insert_char(c, editor);
+}
+
+void curses_interface_draw_cursor(Editor editor) {
+    attron(A_BOLD);
+    attron(COLOR_PAIR(1));
+    mvprintw(editor.cursor.line, editor.cursor.column, "");
+    attroff(A_BOLD);
+    attroff(COLOR_PAIR(1));
 }
 
 void curses_interface_end(void) {
