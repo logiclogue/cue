@@ -7,7 +7,7 @@ void curses_interface_init(void) {
     initscr();
 }
 
-void curses_interface_draw(Editor editor) {
+Editor curses_interface_draw(Editor editor) {
     char current_char;
     const char escape_code = 27;
 
@@ -18,6 +18,8 @@ void curses_interface_draw(Editor editor) {
 
         printw("%s", cons_to_string(editor.cons));
     }
+
+    return editor;
 }
 
 void curses_interface_end(void) {

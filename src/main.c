@@ -42,15 +42,19 @@ void test(void) {
 }
 
 void start(const char file_name[]) {
-    FILE *file = fopen(file_name, "r");
+    FILE *file = fopen(file_name, "r+");
 
     Cons *cons = cons_from_file(file);
-    Cursor cursor = cursor_new(0, 0);
-    Editor editor = editor_new(cursor, cons);
+    printf("%s\n", cons_to_string(cons));
+    fgetc(stdin);
+    Editor editor = editor_new(cursor_new(0, 0), cons);
 
     curses_interface_init();
-    curses_interface_draw(editor);
+    editor = curses_interface_draw(editor);
     curses_interface_end();
+
+    fflush(file);
+    fputs(cons_to_string(editor.cons), file);
 
     fclose(file);
 }
