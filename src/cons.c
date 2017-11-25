@@ -271,6 +271,16 @@ Cons *cons_insert_char(int i, char c, Cons *cons) {
     return new_cons;
 }
 
+Cons *cons_remove_item(int i, Cons *cons) {
+    Cons *head = cons_take(i, cons);
+    Cons *tail = cons_drop(i + 1, cons);
+    Cons *new_cons = cons_add(head, tail);
+
+    cons_destroy(head);
+
+    return new_cons;
+}
+
 void cons_test(void) {
     Cons *jordan = cons_from_string("Jordan");
     Cons *j = cons_from_string("J");
@@ -319,5 +329,11 @@ void cons_test(void) {
 
     assert(cons_equal(
         cons_insert_char(1, 'o', cons_from_string("Jrdan")),
+        cons_from_string("Jordan")));
+    assert(cons_equal(
+        cons_remove_item(1, cons_from_string("Jordan")),
+        cons_from_string("Jrdan")));
+    assert(cons_equal(
+        cons_remove_item(100, cons_from_string("Jordan")),
         cons_from_string("Jordan")));
 }
