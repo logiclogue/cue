@@ -27,7 +27,6 @@ Editor curses_interface_draw(Editor editor) {
 }
 
 Editor curses_interface_dispatch(char c, Editor editor) {
-    //printw("\n\n%d\n\n", c);
     if (c == 4) {
         return editor_new(cursor_left(editor.cursor), editor.cons);
     } else if (c == 5) {
