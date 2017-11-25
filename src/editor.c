@@ -19,6 +19,13 @@ Editor editor_insert_char(char c, Editor editor) {
     return editor_new(new_cursor, new_cons);
 }
 
+Editor editor_backspace(Editor editor) {
+    int position = editor_get_position(editor);
+    Cons *cons = cons_remove_item(position - 1, editor.cons);
+
+    return editor_new(cursor_left(editor.cursor), cons);
+}
+
 int editor_get_position(Editor editor) {
     return cons_line_column_to_pos(
         editor.cursor.line,
@@ -42,4 +49,11 @@ void editor_test() {
         new_editor.cons,
         cons_from_string("jordan\ntesting")));
     assert(new_editor.cursor.column == editor.cursor.column + 1);
+
+    new_editor = editor_backspace(editor);
+
+    assert(new_editor.cursor.column == editor.cursor.column - 1);
+    assert(cons_equal(
+        new_editor.cons,
+        cons_from_string("jordan\ntting")));
 }
