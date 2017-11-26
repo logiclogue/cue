@@ -21,6 +21,7 @@ Editor curses_interface_draw(Editor editor) {
         clear();
 
         editor = curses_interface_dispatch(c, editor);
+        editor = editor_cursor_normalise(editor);
 
         curses_interface_draw_text(editor);
         curses_interface_draw_cursor(editor);
@@ -58,6 +59,7 @@ void curses_interface_draw_cursor(Editor editor) {
     attron(A_BOLD);
     attron(COLOR_PAIR(1));
 
+    mvprintw(20, 20, "%d %d", editor.cursor.line, editor.cursor.column);
     move(editor.cursor.line, editor.cursor.column);
 
     attroff(A_BOLD);
