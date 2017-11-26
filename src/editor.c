@@ -41,7 +41,7 @@ int editor_get_position(Editor editor) {
 }
 
 static Editor move_to_position(int position, Cursor cursor, Cons *cons) {
-    if (position == 0 || cons_is_empty(cons)) {
+    if (position <= 0 || cons_is_empty(cons)) {
         return editor_new(cursor, cons);
     } else if (cons_line_is_newline(cons->car)) {
         return move_to_position(
@@ -60,6 +60,12 @@ Editor editor_move_to_position(int position, Editor editor) {
         editor.cons).cursor;
 
     return editor_new(cursor, editor.cons);
+}
+
+Editor editor_cursor_normalise(Editor editor) {
+    int position = editor_get_position(editor);
+
+    return editor_move_to_position(position, editor);
 }
 
 void editor_test() {
@@ -113,4 +119,22 @@ void editor_test() {
     assert(new_editor.cursor.line == 1);
     assert(new_editor.cursor.column == 0);
     assert(editor.cons == new_editor.cons);
+
+    editor = editor_new(cursor_new(0, 100), editor.cons);
+    new_editor = editor_cursor_normalise(editor);
+
+    assert(new_editor.cursor.line == 0);
+    assert(new_editor.cursor.column == 6);
+
+    editor = editor_new(cursor_new(4, 100), editor.cons);
+    new_editor = editor_cursor_normalise(editor);
+
+    assert(new_editor.cursor.line == 1);
+    assert(new_editor.cursor.column == 5);
+
+    editor = editor_new(cursor_new(-1, -1), editor.cons);
+    new_editor = editor_cursor_normalise(editor);
+
+    assert(new_editor.cursor.line == 0);
+    assert(new_editor.cursor.column == 0);
 }

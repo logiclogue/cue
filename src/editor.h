@@ -18,6 +18,7 @@ Editor editor_backspace(Editor editor);
 Editor editor_delete(Editor editor);
 int editor_get_position(Editor editor);
 Editor editor_move_to_position(int position, Editor editor);
+Editor editor_cursor_normalise(Editor editor);
 void editor_test(void);
 
 #endif
