@@ -3,10 +3,16 @@
 #include "editor.h"
 #include "cons.h"
 
+#define KEY_LEFT 4
+#define KEY_RIGHT 5
+#define KEY_UP 3
+#define KEY_DOWN 2
+#define KEY_BACKSPACE 127
+
 void curses_interface_init(void) {
     initscr();
     keypad(stdscr, TRUE);
-    raw();
+    noecho();
 
     init_pair(1, COLOR_BLACK, COLOR_GREEN);
 }
@@ -16,7 +22,7 @@ Editor curses_interface_draw(Editor editor) {
     const char escape_code = 27;
 
     while ((c = getch()) != escape_code) {
-        clear();
+        refresh();
 
         editor = curses_interface_dispatch(c, editor);
 
@@ -33,15 +39,15 @@ void curses_interface_draw_text(Editor editor) {
 }
 
 Editor curses_interface_dispatch(char c, Editor editor) {
-    if (c == 4) {
+    if (c == KEY_LEFT) {
         return editor_new(cursor_left(editor.cursor), editor.cons);
-    } else if (c == 5) {
+    } else if (c == KEY_RIGHT) {
         return editor_new(cursor_right(editor.cursor), editor.cons);
-    } else if (c == 3) {
+    } else if (c == KEY_UP) {
         return editor_new(cursor_up(editor.cursor), editor.cons);
-    } else if (c == 2) {
+    } else if (c == KEY_DOWN) {
         return editor_new(cursor_down(editor.cursor), editor.cons);
-    } else if (c == 127) {
+    } else if (c == KEY_BACKSPACE) {
         return editor_backspace(editor);
     }
 
