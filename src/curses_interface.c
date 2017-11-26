@@ -13,17 +13,23 @@ void curses_interface_init(void) {
 Editor curses_interface_draw(Editor editor) {
     char c;
     const char escape_code = 27;
+    Editor old_editor;
 
     while ((c = getch()) != escape_code) {
         clear();
 
+        old_editor = editor;
         editor = curses_interface_dispatch(c, editor);
 
-        printw("%s", cons_to_string(editor.cons));
+        curses_interface_draw_text(editor);
         curses_interface_draw_cursor(editor);
     }
 
     return editor;
+}
+
+void curses_interface_draw_text(Editor editor) {
+    printw("%s", cons_to_string(editor.cons));
 }
 
 Editor curses_interface_dispatch(char c, Editor editor) {

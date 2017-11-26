@@ -8,5 +8,6 @@ Editor curses_interface_draw(Editor editor);
 void curses_interface_end(void);
 Editor curses_interface_dispatch(char c, Editor editor);
 void curses_interface_draw_cursor(Editor editor);
+void curses_interface_draw_text(Editor editor);
 
 #endif
