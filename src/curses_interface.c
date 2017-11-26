@@ -43,9 +43,14 @@ void curses_interface_draw(Editor editor) {
 
 void curses_interface_draw_text(Editor editor) {
     int offset = LINES / 2;
+    int line;
 
     for (int i = -offset; i < offset; i += 1) {
-        curses_interface_draw_line(i + editor.cursor.line, editor);
+        line = i + editor.cursor.line;
+
+        if (line >= 0 && line < cons_line_count(editor.cons)) {
+            curses_interface_draw_line(i + editor.cursor.line, editor);
+        }
     }
 }
 
@@ -58,7 +63,7 @@ void curses_interface_draw_line(int line, Editor editor) {
     mvprintw(
         diff + offset,
         0,
-        "%05d|%s",
+        "%5d|%s",
         line + 1,
         current_string);
 
