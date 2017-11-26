@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <ncurses.h>
 #include "curses_interface.h"
 #include "editor.h"
@@ -41,7 +42,28 @@ void curses_interface_draw(Editor editor) {
 }
 
 void curses_interface_draw_text(Editor editor) {
-    mvprintw(0, 0, "%s", cons_to_string(editor.cons));
+    int offset = LINES / 2;
+
+    for (int i = -offset; i < offset; i += 1) {
+        curses_interface_draw_line(i + editor.cursor.line, editor);
+    }
+}
+
+void curses_interface_draw_line(int line, Editor editor) {
+    int offset = LINES / 2;
+    int diff = line - editor.cursor.line;
+    Cons *current_cons = cons_line(editor.cons, line);
+    Cons *current_string = cons_to_string(current_cons);
+
+    mvprintw(
+        diff + offset,
+        0,
+        "%05d|%s",
+        line + 1,
+        current_string);
+
+    cons_destroy(current_cons);
+    free(current_string);
 }
 
 Editor curses_interface_dispatch(int c, Editor editor) {
@@ -69,7 +91,7 @@ void curses_interface_draw_cursor(Editor editor) {
     attron(A_BOLD);
     attron(COLOR_PAIR(1));
 
-    move(editor.cursor.line, editor.cursor.column);
+    move(LINES / 2, editor.cursor.column + 6);
 
     attroff(A_BOLD);
     attroff(COLOR_PAIR(1));
