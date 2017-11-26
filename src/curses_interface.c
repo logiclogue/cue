@@ -58,7 +58,7 @@ void curses_interface_draw_line(int line, Editor editor) {
     int offset = LINES / 2;
     int diff = line - editor.cursor.line;
     Cons *current_cons = cons_line(editor.cons, line);
-    Cons *current_string = cons_to_string(current_cons);
+    char *current_string = cons_to_string(current_cons);
 
     mvprintw(
         diff + offset,
