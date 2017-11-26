@@ -2,6 +2,7 @@
 #include "curses_interface.h"
 #include "editor.h"
 #include "cons.h"
+#include "cons_line.h"
 
 #define KEY_ESCAPE 27
 
@@ -36,7 +37,6 @@ void curses_interface_draw_text(Editor editor) {
 }
 
 Editor curses_interface_dispatch(int c, Editor editor) {
-    mvprintw(20, 20, "%d", c);
     if (c == KEY_LEFT) {
         return editor_new(cursor_left(editor.cursor), editor.cons);
     } else if (c == KEY_RIGHT) {
