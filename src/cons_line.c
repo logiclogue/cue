@@ -53,6 +53,8 @@ int cons_line_column_to_pos(int line, int column, Cons *cons) {
     Cons *current_line = cons_line(cons, line);
     int length = cons_length(current_line);
     int lines = cons_line_count(cons);
+
+    cons_destroy(current_line);
     
     if (line < 0) {
         return 0;

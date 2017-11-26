@@ -59,6 +59,7 @@ Editor curses_interface_dispatch(int c, Editor editor) {
     }
 
     return editor_insert_char(c, editor);
+
 }
 
 void curses_interface_draw_cursor(Editor editor) {
