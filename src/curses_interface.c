@@ -6,6 +6,7 @@
 void curses_interface_init(void) {
     initscr();
     keypad(stdscr, TRUE);
+    raw();
 
     init_pair(1, COLOR_BLACK, COLOR_GREEN);
 }
@@ -13,12 +14,10 @@ void curses_interface_init(void) {
 Editor curses_interface_draw(Editor editor) {
     char c;
     const char escape_code = 27;
-    Editor old_editor;
 
     while ((c = getch()) != escape_code) {
         clear();
 
-        old_editor = editor;
         editor = curses_interface_dispatch(c, editor);
 
         curses_interface_draw_text(editor);
@@ -29,7 +28,7 @@ Editor curses_interface_draw(Editor editor) {
 }
 
 void curses_interface_draw_text(Editor editor) {
-    printw("%s", cons_to_string(editor.cons));
+    mvprintw(0, 0, "%s", cons_to_string(editor.cons));
     mvprintw(0, 0, "%d", cons_get_memory_usage());
 }
 
