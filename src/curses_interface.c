@@ -24,6 +24,7 @@ Editor curses_interface_draw(Editor editor) {
         editor = editor_cursor_normalise(editor);
 
         curses_interface_draw_text(editor);
+        curses_interface_draw_bar(editor);
         curses_interface_draw_cursor(editor);
 
         refresh();
@@ -34,7 +35,6 @@ Editor curses_interface_draw(Editor editor) {
 
 void curses_interface_draw_text(Editor editor) {
     mvprintw(0, 0, "%s", cons_to_string(editor.cons));
-    mvprintw(0, 0, "%d", cons_get_memory_usage());
 }
 
 Editor curses_interface_dispatch(int c, Editor editor) {
@@ -59,11 +59,17 @@ void curses_interface_draw_cursor(Editor editor) {
     attron(A_BOLD);
     attron(COLOR_PAIR(1));
 
-    mvprintw(20, 20, "%d %d", editor.cursor.line, editor.cursor.column);
     move(editor.cursor.line, editor.cursor.column);
 
     attroff(A_BOLD);
     attroff(COLOR_PAIR(1));
+}
+
+void curses_interface_draw_bar(Editor editor) {
+    mvprintw(LINES - 1, 0, "%d %d %d",
+        cons_get_memory_usage(),
+        editor.cursor.line,
+        editor.cursor.column);
 }
 
 void curses_interface_end(void) {
