@@ -69,10 +69,6 @@ int cons_line_column_to_pos(int line, int column, Cons *cons) {
     return 1 + cons_line_column_to_pos(line, column - 1, cons);
 }
 
-int cons_line_current_column(int pos, Cons *cons) {
-    int line = cons_line_current(pos, cons);
-}
-
 Cons *cons_line_start(int line, Cons *cons) {
     if (cons_is_empty(cons)) {
         return cons_empty();
@@ -116,11 +112,6 @@ void cons_line_test(void) {
     assert(cons_equal(
         cons_line_start(1, cons),
         cons_from_string("second\nthird")));
-    assert(cons_line_current_column(0, cons) == 0);
-    assert(cons_line_current_column(1, cons) == 1);
-    assert(cons_line_current_column(5, cons) == 5);
-    assert(cons_line_current_column(6, cons) == 0);
-    assert(cons_line_current_column(100, cons) == 5);
 
     cons_destroy(cons);
     cons_destroy(first);
