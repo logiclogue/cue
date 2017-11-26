@@ -12,6 +12,7 @@ struct ConsTag {
 };
 
 Cons *cons_new(char value, Cons *cons);
+int cons_get_memory_usage(void);
 Cons *cons_empty(void);
 Cons *cons_from_string(char *s);
 Cons *cons_from_int(int i);

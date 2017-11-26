@@ -30,6 +30,7 @@ Editor curses_interface_draw(Editor editor) {
 
 void curses_interface_draw_text(Editor editor) {
     printw("%s", cons_to_string(editor.cons));
+    mvprintw(0, 0, "%d", cons_get_memory_usage());
 }
 
 Editor curses_interface_dispatch(char c, Editor editor) {

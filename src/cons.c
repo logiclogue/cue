@@ -2,19 +2,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <ncurses.h>
 #include "cons.h"
+
+int memory_usage = 0;
 
 Cons *cons_new(char value, Cons *cons) {
     Cons *self = malloc(sizeof(Cons));
 
-    static int total = 0;
-
-    total += 1;
+    memory_usage += 1;
 
     self->car = value;
     self->cdr = cons;
 
     return self;
+}
+
+int cons_get_memory_usage(void) {
+    return memory_usage;
 }
 
 Cons *cons_empty(void) {
@@ -84,9 +89,7 @@ void cons_destroy(Cons *cons) {
         return;
     }
 
-    static int total = 0;
-
-    total += 1;
+    memory_usage -= 1;
 
     cons_destroy(cons->cdr);
     free(cons);
