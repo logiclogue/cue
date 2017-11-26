@@ -40,6 +40,28 @@ int editor_get_position(Editor editor) {
         editor.cons);
 }
 
+static Editor move_to_position(int position, Cursor cursor, Cons *cons) {
+    if (position == 0 || cons_is_empty(cons)) {
+        return editor_new(cursor, cons);
+    } else if (cons_line_is_newline(cons->car)) {
+        return move_to_position(
+            position - 1,
+            cursor_new(cursor.line + 1, 0),
+            cons->cdr);
+    }
+
+    return move_to_position(position - 1, cursor_right(cursor), cons->cdr);
+}
+
+Editor editor_move_to_position(int position, Editor editor) {
+    Cursor cursor = move_to_position(
+        position,
+        cursor_new(0, 0),
+        editor.cons).cursor;
+
+    return editor_new(cursor, editor.cons);
+}
+
 void editor_test() {
     Cursor cursor = cursor_new(1, 2);
     Cons *cons = cons_from_string("jordan\nteting");
@@ -70,4 +92,25 @@ void editor_test() {
     assert(cons_equal(
         new_editor.cons,
         cons_from_string("jordan\nteing")));
+
+    new_editor = editor_move_to_position(0, editor);
+
+    assert(new_editor.cursor.line == 0);
+    assert(new_editor.cursor.column == 0);
+
+    new_editor = editor_move_to_position(1, editor);
+
+    assert(new_editor.cursor.line == 0);
+    assert(new_editor.cursor.column == 1);
+
+    new_editor = editor_move_to_position(6, editor);
+
+    assert(new_editor.cursor.line == 0);
+    assert(new_editor.cursor.column == 6);
+
+    new_editor = editor_move_to_position(7, editor);
+
+    assert(new_editor.cursor.line == 1);
+    assert(new_editor.cursor.column == 0);
+    assert(editor.cons == new_editor.cons);
 }
