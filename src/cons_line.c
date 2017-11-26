@@ -54,7 +54,9 @@ int cons_line_column_to_pos(int line, int column, Cons *cons) {
     int length = cons_length(current_line);
     int lines = cons_line_count(cons);
     
-    if (line >= lines && line > 0) {
+    if (line < 0) {
+        return 0;
+    } else if (line >= lines && line > 0) {
         return cons_line_column_to_pos(line - 1, column, cons);
     } else if (column >= length && column > 0) {
         return cons_line_column_to_pos(line, column - 1, cons);
@@ -109,6 +111,7 @@ void cons_line_test(void) {
     assert(cons_line_column_to_pos(2, 4, cons) == 17);
     assert(cons_line_column_to_pos(2, 5, cons) == 17);
     assert(cons_line_column_to_pos(3, 5, cons) == 17);
+    assert(cons_line_column_to_pos(-1, -1, cons) == 0);
     assert(cons_equal(
         cons_line_start(1, cons),
         cons_from_string("second\nthird")));
