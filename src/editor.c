@@ -72,6 +72,14 @@ Editor editor_cursor_normalise(Editor editor) {
     return editor_move_to_position(position, editor);
 }
 
+Editor editor_newline(Editor editor) {
+    int position = editor_get_position(editor);
+    Cursor cursor = cursor_new(editor.cursor.line + 1, 0);
+    Cons *cons = cons_insert_char(position, '\n', editor.cons);
+
+    return editor_new(cursor, cons);
+}
+
 void editor_test() {
     Cursor cursor = cursor_new(1, 2);
     Cons *cons = cons_from_string("jordan\nteting");
@@ -141,4 +149,13 @@ void editor_test() {
 
     assert(new_editor.cursor.line == 0);
     assert(new_editor.cursor.column == 0);
+
+    editor = editor_new(cursor_new(1, 2), editor.cons);
+    new_editor = editor_newline(editor);
+
+    assert(new_editor.cursor.line == 2);
+    assert(new_editor.cursor.column == 0);
+    assert(cons_equal(
+        new_editor.cons,
+        cons_from_string("jordan\nte\nting")));
 }
