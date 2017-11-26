@@ -14,8 +14,10 @@ void curses_interface_init(void) {
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
 }
 
-Editor curses_interface_draw(Editor editor) {
+Editor curses_interface_start(Editor editor) {
     int c;
+
+    curses_interface_draw(editor);
 
     while ((c = getch()) != KEY_ESCAPE) {
         clear();
@@ -23,14 +25,18 @@ Editor curses_interface_draw(Editor editor) {
         editor = curses_interface_dispatch(c, editor);
         editor = editor_cursor_normalise(editor);
 
-        curses_interface_draw_text(editor);
-        curses_interface_draw_bar(editor);
-        curses_interface_draw_cursor(editor);
+        curses_interface_draw(editor);
 
         refresh();
     }
 
     return editor;
+}
+
+void curses_interface_draw(Editor editor) {
+    curses_interface_draw_text(editor);
+    curses_interface_draw_bar(editor);
+    curses_interface_draw_cursor(editor);
 }
 
 void curses_interface_draw_text(Editor editor) {

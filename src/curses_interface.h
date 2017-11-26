@@ -4,7 +4,8 @@
 #include "editor.h"
 
 void curses_interface_init(void);
-Editor curses_interface_draw(Editor editor);
+Editor curses_interface_start(Editor editor);
+void curses_interface_draw(Editor editor);
 void curses_interface_end(void);
 Editor curses_interface_dispatch(int c, Editor editor);
 void curses_interface_draw_cursor(Editor editor);

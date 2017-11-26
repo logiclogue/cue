@@ -31,7 +31,7 @@ void start(const char file_name[]) {
     }
 
     curses_interface_init();
-    editor = curses_interface_draw(editor);
+    editor = curses_interface_start(editor);
     curses_interface_end();
 
     file = fopen(file_name, "w+");
