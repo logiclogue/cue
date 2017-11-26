@@ -63,6 +63,10 @@ Editor editor_move_to_position(int position, Editor editor) {
 }
 
 Editor editor_cursor_normalise(Editor editor) {
+    if (editor.cursor.column < 0) {
+        editor = editor_new(cursor_new(editor.cursor.line, 0), editor.cons);
+    }
+
     int position = editor_get_position(editor);
 
     return editor_move_to_position(position, editor);
