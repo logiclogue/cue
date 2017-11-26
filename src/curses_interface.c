@@ -3,11 +3,7 @@
 #include "editor.h"
 #include "cons.h"
 
-#define KEY_LEFT 4
-#define KEY_RIGHT 5
-#define KEY_UP 3
-#define KEY_DOWN 2
-#define KEY_BACKSPACE 127
+#define KEY_ESCAPE 27
 
 void curses_interface_init(void) {
     initscr();
@@ -18,16 +14,15 @@ void curses_interface_init(void) {
 }
 
 Editor curses_interface_draw(Editor editor) {
-    char c;
-    const char escape_code = 27;
+    int c;
 
-    while ((c = getch()) != escape_code) {
-        refresh();
-
+    while ((c = getch()) != KEY_ESCAPE) {
         editor = curses_interface_dispatch(c, editor);
 
         curses_interface_draw_text(editor);
         curses_interface_draw_cursor(editor);
+
+        refresh();
     }
 
     return editor;
@@ -38,7 +33,7 @@ void curses_interface_draw_text(Editor editor) {
     mvprintw(0, 0, "%d", cons_get_memory_usage());
 }
 
-Editor curses_interface_dispatch(char c, Editor editor) {
+Editor curses_interface_dispatch(int c, Editor editor) {
     if (c == KEY_LEFT) {
         return editor_new(cursor_left(editor.cursor), editor.cons);
     } else if (c == KEY_RIGHT) {
