@@ -10,13 +10,15 @@ void curses_interface_init(void) {
     keypad(stdscr, TRUE);
     noecho();
 
-    init_pair(1, COLOR_BLACK, COLOR_GREEN);
+    init_pair(1, COLOR_GREEN, COLOR_BLACK);
 }
 
 Editor curses_interface_draw(Editor editor) {
     int c;
 
     while ((c = getch()) != KEY_ESCAPE) {
+        clear();
+
         editor = curses_interface_dispatch(c, editor);
 
         curses_interface_draw_text(editor);
@@ -34,6 +36,7 @@ void curses_interface_draw_text(Editor editor) {
 }
 
 Editor curses_interface_dispatch(int c, Editor editor) {
+    mvprintw(20, 20, "%d", c);
     if (c == KEY_LEFT) {
         return editor_new(cursor_left(editor.cursor), editor.cons);
     } else if (c == KEY_RIGHT) {
@@ -42,7 +45,7 @@ Editor curses_interface_dispatch(int c, Editor editor) {
         return editor_new(cursor_up(editor.cursor), editor.cons);
     } else if (c == KEY_DOWN) {
         return editor_new(cursor_down(editor.cursor), editor.cons);
-    } else if (c == KEY_BACKSPACE) {
+    } else if (c == KEY_BACKSPACE || c == KEY_DC || c == 127) {
         return editor_backspace(editor);
     }
 
@@ -53,7 +56,7 @@ void curses_interface_draw_cursor(Editor editor) {
     attron(A_BOLD);
     attron(COLOR_PAIR(1));
 
-    mvprintw(editor.cursor.line, editor.cursor.column, "");
+    move(editor.cursor.line, editor.cursor.column);
 
     attroff(A_BOLD);
     attroff(COLOR_PAIR(1));
