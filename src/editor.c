@@ -26,6 +26,13 @@ Editor editor_backspace(Editor editor) {
     return editor_new(cursor_left(editor.cursor), cons);
 }
 
+Editor editor_delete(Editor editor) {
+    int position = editor_get_position(editor);
+    Cons *cons = cons_remove_item(position, editor.cons);
+
+    return editor_new(editor.cursor, cons);
+}
+
 int editor_get_position(Editor editor) {
     return cons_line_column_to_pos(
         editor.cursor.line,
@@ -56,4 +63,11 @@ void editor_test() {
     assert(cons_equal(
         new_editor.cons,
         cons_from_string("jordan\ntting")));
+
+    new_editor = editor_delete(editor);
+
+    assert(new_editor.cursor.column == editor.cursor.column);
+    assert(cons_equal(
+        new_editor.cons,
+        cons_from_string("jordan\nteing")));
 }
