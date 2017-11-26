@@ -5,6 +5,7 @@
 #include "cons_line.h"
 
 #define KEY_ESCAPE 27
+#define KEY_RETURN 10
 
 void curses_interface_init(void) {
     initscr();
@@ -56,6 +57,8 @@ Editor curses_interface_dispatch(int c, Editor editor) {
         return editor_backspace(editor);
     } else if (c == KEY_DC) {
         return editor_delete(editor);
+    } else if (c == KEY_RETURN) {
+        return editor_newline(editor);
     }
 
     return editor_insert_char(c, editor);
