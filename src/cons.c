@@ -69,19 +69,13 @@ Cons *cons_from_bool(bool b) {
 }
 
 Cons *cons_from_file(FILE *f) {
-    char current_char;
-    Cons *previous_cons = cons_empty();
-    Cons *cons = cons_empty();
+    char current_char = fgetc(f);
 
-    while ((current_char = fgetc(f)) != EOF) {
-        previous_cons = cons;
-
-        cons = cons_add(previous_cons, cons_new(current_char, cons_empty()));
-
-        cons_destroy(previous_cons);
+    if (current_char == EOF) {
+        return cons_empty();
     }
 
-    return cons;
+    return cons_new(current_char, cons_from_file(f));
 }
 
 void cons_destroy(Cons *cons) {
