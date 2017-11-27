@@ -18,3 +18,13 @@ Just type `make`
 ## Issues
 
 - Not being able backspace the last character
+- Not being able to put the cursor on the right side of the last character
+- File becomes slower to edit, the further through the file you go
+
+## Author
+
+Jordan Lord
+
+## License
+
+GNU GPL 3.0
