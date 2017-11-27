@@ -81,14 +81,14 @@ Editor curses_interface_dispatch(int c, Editor editor) {
     } else if (c == KEY_DOWN) {
         return editor_new(cursor_down(editor.cursor), editor.cons);
     } else if (c == KEY_BACKSPACE || c == 127) {
-        return editor_backspace(editor);
+        return editor_destroy_and_pass(editor, editor_backspace(editor));
     } else if (c == KEY_DC) {
-        return editor_delete(editor);
+        return editor_destroy_and_pass(editor, editor_delete(editor));
     } else if (c == KEY_RETURN) {
-        return editor_newline(editor);
+        return editor_destroy_and_pass(editor, editor_newline(editor));
     }
 
-    return editor_insert_char(c, editor);
+    return editor_destroy_and_pass(editor, editor_insert_char(c, editor));
 
 }
 

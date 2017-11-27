@@ -13,6 +13,7 @@ struct EditorTag {
 };
 
 Editor editor_new(Cursor cursor, Cons *cons);
+Editor editor_destroy_and_pass(Editor old_editor, Editor new_editor);
 Editor editor_insert_char(char c, Editor editor);
 Editor editor_backspace(Editor editor);
 Editor editor_delete(Editor editor);

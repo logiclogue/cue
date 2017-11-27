@@ -11,6 +11,12 @@ Editor editor_new(Cursor cursor, Cons *cons) {
     };
 }
 
+Editor editor_destroy_and_pass(Editor old_editor, Editor new_editor) {
+    cons_destroy(old_editor.cons);
+
+    return new_editor;
+}
+
 Editor editor_insert_char(char c, Editor editor) {
     int pos = editor_get_position(editor);
     Cons *new_cons = cons_insert_char(pos, c, editor.cons);

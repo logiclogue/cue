@@ -191,8 +191,10 @@ Cons *cons_init(Cons *cons) {
 }
 
 Cons *cons_drop(int n, Cons *cons) {
-    if (cons_is_empty(cons) || n == 0) {
+    if (cons_is_empty(cons)) {
         return cons;
+    } else if (n == 0) {
+        return cons_new(cons->car, cons_drop(n, cons->cdr));
     }
 
     return cons_drop(n - 1, cons->cdr);
