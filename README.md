@@ -10,7 +10,7 @@ Just type `make`
 
 - `./build/cue` will run the tests
 - `./build/cue README.md` will open this very file for editing!
-- `./build/cue Makefile` to open the makefile, you get the idea
+- `./build/cue Makefile` to open the makefile
 
 - Pressing the **escape** saves and quits the editor
 - Pressing Ctrl+C quits the editor without saving
